@@ -9,9 +9,10 @@
     <script type="systemjs-importmap">
       {
         "imports": {
-          "mf-homepage": "http://localhost:4000/main.js",
           "mf-navbar": "http://localhost:4001/main.js",
-          "add-user": "http://localhost:4601/main.js",
+          "app3": "http://localhost:4201/main.js",
+          "mf-homepage": "http://localhost:4000/main.js",
+          
           "single-spa": "https://cdn.jsdelivr.net/npm/single-spa@5.1.1/lib/system/single-spa.min.js"
         }
       }
@@ -27,22 +28,31 @@
   <body>
     <script>
       System.import('single-spa').then(function (singleSpa) {
-        singleSpa.registerApplication(
-          'mf-homepage',
-          () => System.import('mf-homepage'),
-          location => location.pathname.startsWith('/home')
-        );
+
         singleSpa.registerApplication(
           'mf-navbar',
           () => System.import('mf-navbar'),
           location => location.pathname.startsWith('/')
         );
+
         singleSpa.registerApplication(
-          'add-user',
-          () => System.import('add-user'),
-          location => location.pathname.startsWith('/add-user')
+          'app3',
+          () => System.import('app3'),
+          location => location.pathname.startsWith('/page1')
         );
+        singleSpa.registerApplication(
+          'mf-homepage',
+          () => System.import('mf-homepage'),
+          location => location.pathname.startsWith('/home')
+        );
+       
         singleSpa.start();
+
+        singleSpa.addErrorHandler(err => {
+    console.log(err);
+    console.log(err.appOrParcelName);
+    console.log(singleSpa.getAppStatus(err.appOrParcelName));
+});
       })
     </script>
     <!-- See https://github.com/joeldenning/import-map-overrides#user-interface  -->
